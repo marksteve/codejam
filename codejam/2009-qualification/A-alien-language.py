@@ -1,9 +1,8 @@
 import re
 L, D, N = map(int, raw_input().split())
-words = set()
+words = []
 for _ in xrange(D):
-  words.add(raw_input())
-words_str = '\n'.join(words)
+  words.append(raw_input())
 messages = [raw_input() for _ in xrange(N)]
 for x, message in enumerate(messages):
   choice = False
@@ -21,27 +20,13 @@ for x, message in enumerate(messages):
     choices[j].add(c)
     if not choice:
       j += 1
-  pat = re.compile(message.replace('(', '[').replace(')', ']'))
   K = 0
-  for word in words:
-    if pat.match(word):
+  for i in xrange(D):
+    found = True
+    for j in xrange(L):
+      if words[i][j] not in choices[j]:
+        found = False
+        break
+    if found:
       K += 1
   print "Case #%d: %d" % (x + 1, K)
-  # Slow ass getting the permutations way
-  #for choice in choices.values():
-  #  if isinstance(choice, list):
-  #    if not msg_words:
-  #      msg_words.extend(choice)
-  #    else:
-  #      new_msg_words = []
-  #      for msg_word in msg_words:
-  #        for c in choice:
-  #          new_msg_words.append(msg_word + c)
-  #      msg_words = new_msg_words
-  #  else:
-  #    if msg_words:
-  #      for i, msg_word in enumerate(msg_words):
-  #        msg_words[i] = msg_word + choice
-  #    else:
-  #      msg_words = [choice]
-  #print "Case #%d: %d" % (x + 1, len(set(msg_words) & words))
